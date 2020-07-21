@@ -1,0 +1,5 @@
+package spring.web.svc;
+
+public class AdvertiseServiceImpl {
+
+}

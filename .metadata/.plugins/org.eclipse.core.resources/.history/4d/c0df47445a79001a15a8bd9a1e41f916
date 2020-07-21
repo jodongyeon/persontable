@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberManageMapper">
+<select id="listPage" resultType="spring.web.vo.BoardVO" parameterType="spring.web.vo.SearchCriteria">
+		SELECT  BNO, 
+		        TITLE, 
+		        CONTENT,
+		        WRITER, 
+		        REGDATE,
+		        HIT
+		 FROM ( 
+		        SELECT BNO, 
+		               TITLE, 
+		               CONTENT, 
+		               WRITER, 
+		               REGDATE, 
+		               HIT,
+		               ROW_NUMBER() OVER(ORDER BY BNO DESC) AS RNUM
+		         FROM BOARD, MEMBER
+		         WHERE 1=1 
+		         	<include refid="search"></include>
+		                       )
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY BNO DESC
+	</select>
+<select id="listCount" parameterType="spring.web.vo.SearchCriteria" resultType="int">
+		SELECT COUNT(BNO)
+		   FROM BOARD, MEMBER
+		   WHERE 1=1
+		<include refid="search"></include>	
+		   AND BNO > 0
+	</select>
+</mapper>

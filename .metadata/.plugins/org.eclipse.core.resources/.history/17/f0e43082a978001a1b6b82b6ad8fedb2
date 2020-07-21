@@ -1,0 +1,12 @@
+package spring.web.dao;
+
+import java.util.List;
+
+import spring.web.vo.AdvertiseVO;
+import spring.web.vo.SearchCriteria;
+
+public interface AdvertiseDAO {
+
+	List<AdvertiseVO> adList(SearchCriteria scri);
+
+}

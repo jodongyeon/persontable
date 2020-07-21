@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="advertiseMapper">
+
+	<select id="selectAdvertiseList" parameterType="spring.web.vo.AdvertiseVO" resultType="spring.web.vo.AdvertiseVO">
+        select * from ADVERTISE
+    </select>
+    
+    <insert id="insert" parameterType="spring.web.vo.AdvertiseVO" useGeneratedKeys="true" keyProperty="bno">
+      <selectKey keyProperty="bno" resultType="int" order="BEFORE">
+	    	SELECT ADVERTISE_SEQ.NEXTVAL FROM DUAL
+	    </selectKey>
+	   INSERT INTO ADVERTISE(    ADNUM 
+	   					      , ADNAME
+	   					      , ADDES 
+	   					      , ADIMG
+	   					      , ADTHUMBIMG)
+	                 VALUES(    #{adNum}
+	                 		  , #{adName}
+	                 		  , #{adDes}
+	                 		  , #{adImg}
+	                 		  , #{adThumbImg}  )
+   </insert>
+
+   	<!-- 상품 등록 -->
+	<insert id="ingRegister">
+		insert into ingredient (ingNum, ingName, ingCateCode,
+		ingPrice, ingStock,
+		ingDes, ingImg, ingThumbImg)
+		values (ingredient_seq.nextval, #{ingName},
+		#{ingCateCode}, #{ingPrice},
+		#{ingStock}, #{ingDes},
+		#{ingImg}, #{ingThumbImg}
+		)
+	</insert>
+</mapper>

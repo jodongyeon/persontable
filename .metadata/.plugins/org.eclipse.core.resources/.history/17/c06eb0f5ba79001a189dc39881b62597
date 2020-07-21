@@ -1,0 +1,62 @@
+package spring.web.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import spring.web.svc.AdvertiseService;
+import spring.web.svc.IngredientService;
+import spring.web.vo.AdvertiseVO;
+import spring.web.vo.IngredientVO;
+import spring.web.vo.PageMaker;
+import spring.web.vo.SearchCriteria;
+
+@Controller
+public class MainController {
+
+	@Autowired
+	AdvertiseService advertiseService;
+
+	@Autowired
+	IngredientService ingredientService;
+	
+	@RequestMapping("/")
+	public String mainPage(Model model) throws Exception {
+		
+		return "mainPage";
+	}
+	
+	
+	@RequestMapping(value = "/ingImg", method = RequestMethod.GET)
+	public String sellIngList(Model model, @ModelAttribute("scri") SearchCriteria scri) {
+		List<IngredientVO> sellIngList = ingredientService.sellIngList(scri);
+
+		model.addAttribute("sellIngList", sellIngList);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(ingredientService.listCount(scri));
+		
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return "mainPage";
+	}
+
+	@RequestMapping(value = "/adImg", method = RequestMethod.GET)
+	public String adList(Model model, AdvertiseVO vo, @ModelAttribute("scri") SearchCriteria scri) throws Exception{
+		List<AdvertiseVO> adList = advertiseService.adList(scri);
+		model.addAttribute("adList", adList);
+
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(advertiseService.listCount(scri));
+
+		model.addAttribute("pageMaker", pageMaker);
+		return "mainPage";
+	}
+}

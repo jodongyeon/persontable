@@ -1,0 +1,12 @@
+package spring.web.svc;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import spring.web.dao.AdvertiseDAO;
+
+@Service
+public class AdvertiseServiceImpl implements AdvertiseService {
+	@Autowired
+	AdvertiseDAO dao;
+}

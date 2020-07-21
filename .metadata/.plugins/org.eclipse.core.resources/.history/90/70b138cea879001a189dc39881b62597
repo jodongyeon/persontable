@@ -1,0 +1,43 @@
+package spring.web.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import spring.web.svc.AdvertiseService;
+import spring.web.vo.IngredientVO;
+import spring.web.vo.PageMaker;
+import spring.web.vo.SearchCriteria;
+
+@Controller
+public class MainController {
+
+	@Autowired
+	AdvertiseService advertiseService;
+
+	@RequestMapping("/")
+	public String mainPage(Model model) throws Exception {
+		
+		return "mainPage";
+	}
+	@RequestMapping("/ingImg")
+	public String sellIngList(Model model, @ModelAttribute("scri") SearchCriteria scri) {
+		List<IngredientVO> sellIngList = null;
+		sellIngList = ingredientService.sellIngList(scri);
+
+		model.addAttribute("sellIngList", sellIngList);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(ingredientService.listCount(scri));
+		
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return "ingredient/sell_ing_list";
+	}
+
+}

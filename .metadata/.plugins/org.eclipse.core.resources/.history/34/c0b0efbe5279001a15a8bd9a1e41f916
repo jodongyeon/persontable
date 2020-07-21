@@ -1,0 +1,5 @@
+package spring.web.controller;
+
+public class OrderCheckController {
+
+}

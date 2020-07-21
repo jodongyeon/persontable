@@ -1,0 +1,21 @@
+package spring.web.dao;
+
+import java.util.List;
+
+import spring.web.vo.MemberManageVO;
+import spring.web.vo.SearchCriteria;
+
+public interface MemberManageDAO {
+public void write(MemberManageVO MemberManageVO) throws Exception;
+	
+	public List<MemberManageVO> list(SearchCriteria cri) throws Exception;
+	
+	public int listCount(SearchCriteria scri) throws Exception;
+	
+	public MemberManageVO read(String userId) throws Exception;
+	
+	public void update(MemberManageVO MemberManageVO) throws Exception;
+		
+	public void delete(String userId) throws Exception;
+
+}

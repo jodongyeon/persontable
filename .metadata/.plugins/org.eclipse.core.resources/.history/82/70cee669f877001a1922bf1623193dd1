@@ -1,0 +1,22 @@
+package spring.web.svc;
+
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import spring.web.vo.BoardVO;
+import spring.web.vo.SearchCriteria;
+
+public interface NoticeService {
+	public void write(BoardVO boardVO,MultipartHttpServletRequest request) throws Exception;
+	
+	public List<BoardVO> list(SearchCriteria scri) throws Exception;
+	
+	public int listCount(SearchCriteria scri) throws Exception;
+	
+	public BoardVO read(int bno) throws Exception;
+	
+	public void update(BoardVO boardVO) throws Exception;
+	
+	public void delete(int bno) throws Exception;
+}

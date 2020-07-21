@@ -1,0 +1,165 @@
+create table cart(
+	cartNum number not null,
+	userId varchar2(50) not null,
+	ingNum number not null,
+	cartStock number not null,
+	regDate date default sysdate,
+	primary key(cartNum,userId)
+);
+
+create sequence cart_seq;
+
+alter table cart add constraint cart_userId foreign key(userId)
+references member(userId);
+
+alter table cart add constraint cart_ingNum foreign key(ingNum)
+references ingredient(ingNum);
+
+alter table cart add constraint userId foreign key(userId)
+references member(userId);
+
+insert into cart(cartNum, userId, ingNum,cartStock)
+values(cart_seq.nextval,'youngsoo',1,99);
+
+
+select row_number() over(order by c.cartNum desc) as num,
+c.cartNum, c.userId, c.ingNum, c.cartStock, c.regDate,
+i.ingName, i.ingPrice, i.ingthumbimg
+from cart c
+	inner join INGREDIENT i
+	on c.ingNum = i.ingNum
+	where c.userId = 'youngsoo';
+
+
+
+INSERT INTO cart(cartNum, userId, ingNum ,cartStock) values ('1','youngsoo','1','100');
+
+
+insert into INGREDIENT(ingNum, ingName, ingCateCode, ingPrice, ingStock, ingDes)
+values (INGREDIENT_seq.nextval,'양파1','100','10000','100','양파는 맵습니다')
+
+
+
+INSERT INTO ing_category(ingCateName, ingCateCode) values ('야채','100');
+insert into ing_category (ingCateName, ingCateCode, ingCateCodeRef) values ('양파', '101', '100');
+insert into ing_category (ingCateName, ingCateCode, ingCateCodeRef) values ('마늘', '102', '100');
+insert into ing_category (ingCateName, ingCateCode, ingCateCodeRef) values ('당근', '103', '100');
+
+INSERT INTO ing_category(ingCateName, ingCateCode) values ('과일','200');
+INSERT INTO ing_category(ingCateName, ingCateCode) values ('고기','300');
+
+create table ingredient (
+    ingNum       number          not null,
+    ingName      varchar2(50)    not null,
+    ingCateCode     varchar2(30)    not null,
+    ingPrice     number          not null,
+    ingStock     number          null,
+    ingDes       clob           null,
+    ingImg       varchar(200)    null,
+    regDate      date            default sysdate,
+    primary key(ingNum)  
+);
+
+
+
+
+create table ing_category (
+    ingCateName     varchar2(20)    not null,
+    ingCateCode     varchar2(30)    not null,
+    ingCateCodeRef  varchar2(30)    null,
+    primary key(ingCateCode),
+    foreign key(ingCateCodeRef) references ing_category(ingCateCode)
+);
+
+create sequence ingredient_seq
+start with 1
+increment by 1;
+
+alter table ingredient add
+    constraint fk_ing_category
+    foreign key (ingCateCode)
+        references ing_category(ingCateCode);
+
+
+drop table ingredient
+drop sequence ingredient_seq;
+
+insert into ingredient(ingredient_id, ingredient_name, ingredient_price, amount, description, picture_url) values (1,'레몬',1500,111,'레몬에 포함된 구연산은 피로회복에 좋습니다. 비타민 C도 풍부합니다,','lemon.jpg');
+insert into ingredient(ingredient_id, ingredient_name, ingredient_price, amount, description, picture_url) values (2,'사과',1700,222,'구연산은 피로회복에 좋습니다. 비타민 A도 풍부합니다,','lemon.jpg');
+insert into ingredient(ingredient_id, ingredient_name, ingredient_price, amount, description, picture_url) values (3,'키위',1800,300,'피로회복에 좋습니다. 비타민 B도 풍부합니다,','lemon.jpg');
+
+INSERT INTO ingredient(ingredient_id, ingredient_name, ingredient_price)
+     VALUES (BOARD_SEQ.NEXTVAL, 'aaaa', 1111);
+     
+commit
+
+CREATE TABLE FILE_B(
+	FILE_NO NUMBER NOT NULL,
+	ID NUMBER NOT NULL,
+	ORG_FILE_NAME VARCHAR2(300) NOT NULL,
+	STORED_FILE_NAME VARCHAR2(36) NOT NULL,
+	FILE_SIZE NUMBER,
+	REGDATE DATE DEFAULT SYSDATE NOT NULL,
+	DEL_GB VARCHAR2(1) DEFAULT 'N' NOT NULL,
+	PRIMARY KEY(FILE_NO)
+);
+
+
+
+
+
+
+
+
+
+
+create table ingredient (
+    ingNum       number          not null,
+    ingName      varchar2(50)    not null,
+    ingCateCode     varchar2(30)    not null,
+    ingPrice     number          not null,
+    ingStock     number          null,
+    ingDes       clob           null,
+    ingImg       varchar(200)    null,
+    regDate      date            default sysdate,
+    primary key(ingNum)  
+);
+
+INSERT INTO ingredient (ingNum,ingName,ingCateCode,ingPrice,ingStock,ingDes)
+values (ingredient_seq.nextval, '감자', 100,1000,50,'강원도 감자 1인분에 100g');
+
+create table ing_category (
+    ingCateName     varchar2(20)    not null,
+    ingCateCode     varchar2(30)    not null,
+    ingCateCodeRef  varchar2(30)    null,
+    primary key(ingCateCode),
+    foreign key(ingCateCodeRef) references ing_category(ingCateCode)
+);
+
+alter table ingredient add
+    constraint fk_ing_category
+    foreign key (ingCateCode)
+        references ing_category(ingCateCode);
+        
+        
+create sequence ingredient_seq
+start with 1
+increment by 1;
+
+INSERT INTO ing_category(ingCateName, ingCateCode) values ('야채','100');
+insert into ing_category (ingCateName, ingCateCode, ingCateCodeRef) values ('양파', '101', '100');
+insert into ing_category (ingCateName, ingCateCode, ingCateCodeRef) values ('마늘', '102', '100');
+insert into ing_category (ingCateName, ingCateCode, ingCateCodeRef) values ('당근', '103', '100');
+insert into ing_category (ingCateName, ingCateCode, ingCateCodeRef) values ('감자', '104', '100');
+insert into ing_category (ingCateName, ingCateCode, ingCateCodeRef) values ('오이', '105', '100');
+insert into ing_category (ingCateName, ingCateCode, ingCateCodeRef) values ('고구마', '106', '100');
+insert into ing_category (ingCateName, ingCateCode, ingCateCodeRef) values ('배추', '107', '100');
+INSERT INTO ing_category(ingCateName, ingCateCode) values ('과일','200');
+INSERT INTO ing_category(ingCateName, ingCateCode) values ('고기','300');
+INSERT INTO ing_category(ingCateName, ingCateCode) values ('유제품','400');
+INSERT INTO ing_category(ingCateName, ingCateCode) values ('견과류','500');
+INSERT INTO ing_category(ingCateName, ingCateCode) values ('소스','600');
+INSERT INTO ing_category(ingCateName, ingCateCode) values ('조미료','700');
+INSERT INTO ing_category(ingCateName, ingCateCode) values ('기타','800');
+
+commit;

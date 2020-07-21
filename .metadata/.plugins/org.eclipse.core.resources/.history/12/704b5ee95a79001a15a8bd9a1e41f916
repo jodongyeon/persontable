@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberManageMapper">
+	<select id="listPage" resultType="spring.web.vo.MemberManageVO"
+		parameterType="spring.web.vo.SearchCriteria">
+		SELECT USERID,
+		USERNAME,
+		PHONENUMBER,
+		ZIP,
+		BIRTHDAY,
+		ADDR1,
+		ADDR2,
+		EMAIL,
+		AUTHORITY
+		FROM (
+		SELECT USERID,
+		USERNAME,
+		PHONENUMBER,
+		ZIP,
+		BIRTHDAY,
+		ADDR1,
+		ADDR2,
+		EMAIL,
+		AUTHORITY,
+		ROW_NUMBER() OVER(ORDER BY USERID DESC) AS RNUM
+		FROM MEMBER
+		WHERE 1=1
+		<include refid="search"></include>
+		)
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY USERID DESC
+	</select>
+	<select id="listCount"
+		parameterType="spring.web.vo.SearchCriteria" resultType="int">
+		SELECT COUNT(USERID)
+		FROM MEMBER
+		WHERE 1=1
+		<include refid="search"></include>
+		AND USERID > 0
+	</select>
+	<select id="read" parameterType="int"
+		resultType="spring.web.vo.MemberManageVO">
+		SELECT USERID,
+		USERNAME,
+		PHONENUMBER,
+		ZIP,
+		BIRTHDAY,
+		ADDR1,
+		ADDR2,
+		EMAIL,
+		AUTHORITY
+		FROM (
+		SELECT USERID,
+		USERNAME,
+		PHONENUMBER,
+		ZIP,
+		BIRTHDAY,
+		ADDR1,
+		ADDR2,
+		EMAIL,
+		AUTHORITY
+		FROM BOARD
+		WHERE BNO = #{bno}
+	</select>
+</mapper>

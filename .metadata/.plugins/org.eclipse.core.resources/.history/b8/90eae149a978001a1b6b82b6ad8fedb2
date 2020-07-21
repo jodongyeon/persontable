@@ -1,0 +1,11 @@
+package spring.web.svc;
+
+import java.util.List;
+
+import spring.web.vo.AdvertiseVO;
+
+public interface AdvertiseService {
+
+	public List<AdvertiseVO> adList() throws Exception;
+
+}

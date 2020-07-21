@@ -1,0 +1,108 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<html>
+<head>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!-- 부가적인 테마 -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<title>게시판</title>
+</head>
+
+
+
+<body>
+	<%@include file="../header.jsp"%>
+	<div id="page-wrapper">
+		<%@include file="../sidebar.jsp"%>
+		<div class="container">
+			<div class="all-title-box">
+				<div class="row">
+					<div class="col-lg-12">
+						<h2>관리자-광고</h2>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<%@include file="nav.jsp"%>
+		<section id="container">
+			<form name="readForm" role="form" method="post">
+				<input type="hidden" id="advertise_id" name="adNum"
+					value="${advertise.adNum}" /> <input type="hidden" id="page"
+					name="page" value="${scri.page}"> <input type="hidden"
+					id="perPageNum" name="perPageNum" value="${scri.perPageNum}">
+				<input type="hidden" id="searchType" name="searchType"
+					value="${scri.searchType}"> <input type="hidden"
+					id="keyword" name="keyword" value="${scri.keyword}">
+			</form>
+
+			<form role="form" method="post" autocomplete="off"
+				enctype="multipart/form-data">
+
+				<input type="hidden" name="adNum" value="${advertise.adNum}" />
+
+
+				<div class="inputArea">
+					<label for="adName">광고명</label> <input type="text" id="adName"
+						name="adName" value="${advertise.adName}" />
+				</div>
+				<div class="inputArea">
+					<label for="adDes">광고소개</label>
+					<textarea rows="5" cols="50" id="adDes" name="adDes">${advertise.adDes}</textarea>
+				</div>
+				<div class="inputArea">
+					<label for="adImg">이미지</label>
+					<input type="file" id="adImg" name="file" />
+					<div class="select_img">
+						<img src="${advertise.adImg}" /> <input type="hidden"
+							name="adImg" value="${advertise.adImg}" /> <input type="hidden"
+							name="adThumbImg" value="${advertise.adThumbImg}" />
+					</div>
+
+					<script>
+						$("#adImg").change(
+								function() {
+									if (this.files && this.files[0]) {
+										var reader = new FileReader;
+										reader.onload = function(data) {
+											$(".select_img img").attr("src",
+													data.target.result).width(
+													500);
+										}
+										reader.readAsDataURL(this.files[0]);
+									}
+								});
+					</script>
+					<%-- <%=request.getRealPath("/")%> --%>
+				</div>
+				<div class="inputArea">
+					<button type="submit" id="update_Btn" class="btn btn-primary">완료</button>
+					<button type="submit" id="back_Btn" class="btn btn-warnad">취소</button>
+					<script>
+						var formObj = $("form[role='form']");
+
+						$("#update_Btn").click(function() {
+							formObj.attr("action", "/advertise/update");
+							formObj.attr("method", "post")
+							formObj.submit();
+						});
+						
+					</script>
+				</div>
+			</form>
+		</section>
+	<%@include file="../header.jsp"%>
+	</div>
+
+
+</body>
+</html>

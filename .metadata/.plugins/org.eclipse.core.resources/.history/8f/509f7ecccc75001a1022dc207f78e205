@@ -1,0 +1,8 @@
+create table advertise(
+	adNum       number          not null,
+    adName      varchar2(50)    not null,
+    adDes       clob    		 null,
+    adImg       varchar(200)    null,
+    regDate      date            default sysdate,
+    primary key(adNum)  
+)

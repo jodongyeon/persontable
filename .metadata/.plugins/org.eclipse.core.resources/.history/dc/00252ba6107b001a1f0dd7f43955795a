@@ -1,0 +1,8 @@
+package spring.web.svc;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderCheckServiceImpl implements OrderCheckService {
+
+}

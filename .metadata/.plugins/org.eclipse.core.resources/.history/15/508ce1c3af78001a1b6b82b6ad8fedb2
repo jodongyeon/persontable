@@ -1,0 +1,12 @@
+package spring.web.svc;
+
+import java.util.List;
+
+import spring.web.vo.AdvertiseVO;
+import spring.web.vo.SearchCriteria;
+
+public interface AdvertiseService {
+
+	public List<AdvertiseVO> adList(SearchCriteria scri) throws Exception;
+
+}

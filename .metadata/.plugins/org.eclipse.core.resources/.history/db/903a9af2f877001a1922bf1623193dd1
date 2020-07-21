@@ -1,0 +1,269 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+   pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<html>
+<head>
+
+<style>
+section.replyForm {
+   padding: 30px 0;
+}
+
+section.replyForm div.input_area {
+   margin: 10px 0;
+}
+
+section.replyForm textarea {
+   font-size: 16px;
+   font-family: '맑은 고딕', verdana;
+   padding: 10px;
+   width: 500px;;
+   height: 150px;
+}
+
+section.replyForm button {
+   font-size: 20px;
+   padding: 5px 10px;
+   margin: 10px 0;
+   background: #fff;
+   border: 1px solid #ccc;
+}
+
+section.ingReplyList {
+   padding: 30px 0;
+}
+
+section.ingReplyList ol {
+   padding: 0;
+   margin: 0;
+}
+
+section.ingReplyList ol li {
+   padding: 10px 0;
+   border-bottom: 2px solid #eee;
+}
+
+section.ingReplyList div.userInfo {
+   
+}
+
+section.ingReplyList div.userInfo .userName {
+   font-size: 24px;
+   font-weight: bold;
+}
+
+section.ingReplyList div.userInfo .date {
+   color: #999;
+   display: inline-block;
+   margin-left: 10px;
+}
+
+section.ingReplyList div.replyContent {
+   padding: 10px;
+   margin: 20px 0;
+}
+</style>
+
+
+
+<script
+   src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<title>게시판</title>
+</head>
+
+<!-- <script type="text/javascript">
+   $(document)
+         .ready(
+               function() {
+                  var formObj = $("form[role='form']");
+
+                  // 수정 
+                  $("#modify_Btn").click(function() {
+                     formObj.attr("action", "/ingredient/ingModify");
+                     formObj.attr("method", "post")
+                     formObj.submit();
+                  });
+
+                  // 삭제
+                  $("#delete_Btn").click(function() {
+                     formObj.attr("action", "/ingredient/ingDelete");
+                     formObj.submit();
+                  });
+
+                  // 목록
+                  $("#list_Btn").click(function() {
+                     formObj.attr("action", "/ingredient/admin_ing_list");
+                     formObj.submit();
+                  });
+</script> -->
+
+<body>
+   <div class="container">
+      <header>
+         <h1>게시판</h1>
+      </header>
+      <hr />
+
+
+
+      <section id="container">
+         <form name="readForm" role="form" method="post">
+            <input type="hidden" id="ingredient_id" name="ingNum"
+               value="${ingredient.ingNum}" /> <input type="hidden" id="page"
+               name="page" value="${scri.page}"> <input type="hidden"
+               id="perPageNum" name="perPageNum" value="${scri.perPageNum}">
+            <input type="hidden" id="searchType" name="searchType"
+               value="${scri.searchType}"> <input type="hidden"
+               id="keyword" name="keyword" value="${scri.keyword}">
+         </form>
+      
+
+         <form role="form" method="post">
+            <input type="hidden" name="ingNum" value="${sellIngView.ingNum}" />
+         </form>
+
+         <div class="inputArea">
+            <label>1차 분류</label> <span class="category1">${sellIngView.ingCateCode}</span>
+         </div>
+         <div class="inputArea">
+            <label for="gdsImg">식재료 사진</label><br> <img
+               src="${sellIngView.ingImg}" class="oriImg" />
+         </div>
+
+         <div class="inputArea">
+            <label for="gdsName">식재료명</label> <span>${sellIngView.ingName}</span>
+         </div>
+
+         <div class="inputArea">
+            <label for="gdsPrice">가격</label> <span><fmt:formatNumber
+                  value="${sellIngView.ingPrice}" pattern="###,###,###" /> 원</span>
+         </div>
+
+         <div class="inputArea">
+            <label for="gdsStock">재고</label> <span>${sellIngView.ingStock}
+               개</span>
+         </div>
+         <div class="inputArea">
+            <label for="ingWeight">상품중량</label> <span>${sellIngView.ingWeight}
+               g</span>
+         </div>
+         <div class="inputArea">
+            <label for="gdsDes">상품소개</label> <span>${sellIngView.ingDes}</span>
+         </div>
+         <p class="cartStock">
+            <span>구입 수량</span>
+            <button type="button" class="plus">+</button>
+            <input type="number" class="numBox" min="1"
+               max="${sellIngView.ingStock}" value="1" readonly="readonly" />
+            <button type="button" class="minus">-</button>
+            <script>
+  $(".plus").click(function(){
+   var num = $(".numBox").val();
+   var plusNum = Number(num) + 1;
+   
+   if(plusNum >= ${sellIngView.ingStock}) {
+    $(".numBox").val(num);
+   } else {
+    $(".numBox").val(plusNum);          
+   }
+  });
+  
+  $(".minus").click(function(){
+   var num = $(".numBox").val();
+   var minusNum = Number(num) - 1;
+   
+   if(minusNum <= 0) {
+    $(".numBox").val(num);
+   } else {
+    $(".numBox").val(minusNum);          
+   }
+  });
+ </script>
+
+         </p>
+         <div class="inputArea">
+            <button type="button" id="modify_Btn" class="btn btn-warning">장바구니에
+               담기</button>
+            <button type="button" id="cancel_Btn" class="btn btn-danger">취소</button>
+
+
+            <script>
+               var formObj = $("form[role='form']");
+
+               $("#modify_Btn").click(function() {
+                  formObj.attr("action", "/ingredient/ingModify");
+                  formObj.attr("method", "get")
+                  formObj.submit();
+               });
+
+               $("#delete_Btn").click(function() {
+
+                  formObj.attr("action", "/ingredient/sell_ing_list");
+                  formObj.submit();
+
+               });
+            </script>
+         </div>
+
+         <div id="reply">
+
+            <c:if test="${member == null }">
+               <p>
+                  후기를 남기시려면 <a href="/member/loginForm">로그인</a>해주세요
+               </p>
+            </c:if>
+
+            <c:if test="${member != null}">
+               <section class="replyForm">
+                  <form role="form" method="post" autocomplete="off">
+
+                     <input type="hidden" name="ingNum" value="${sellIngView.ingNum}">
+
+                     <div class="input_area">
+                        <textarea name="repCon" id="repCon"></textarea>
+                     </div>
+
+                     <div class="input_area">
+                        <button type="submit" id="reply_btn">후기 남기기</button>
+                     </div>
+
+                     <script>
+               var formObj = $("form[role='form']");
+
+               $("#reply_btn").click(function() {
+                  formObj.attr("action", "/ingredient/ing_reply_write");
+                  formObj.attr("method", "post")
+                  formObj.submit();
+               });
+                     </script>
+
+                  </form>
+               </section>
+            </c:if>
+
+      
+            <section class="ingReplyList">
+               <ol>
+                  <c:forEach items="${ingReplyList}" var="ingReplyList">
+
+                     <li>
+                        <div class="userInfo">
+                           <span class="userId">${ingReplyList.userId}</span> <span
+                              class="date"><fmt:formatDate
+                                 value="${ingReplyList.repDate}" pattern="yyyy-MM-dd" /></span>
+                        </div>
+                        <div class="replyContent">${ingReplyList.repCon}</div>
+                     </li>
+                  </c:forEach>
+               </ol>
+            </section>
+            
+         </div>
+
+
+         <hr />
+         </section>
+</body>
+</html>

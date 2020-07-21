@@ -1,0 +1,22 @@
+package spring.web.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import spring.web.vo.AdvertiseVO;
+import spring.web.vo.SearchCriteria;
+
+@Repository
+public class AdvertiseDAOImpl implements AdvertiseDAO {
+	@Autowired
+	private SqlSession sqlSession;
+	
+	@Override
+	public List<AdvertiseVO> list(SearchCriteria scri) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("advertiseMapper.listPage",scri);
+	}
+}

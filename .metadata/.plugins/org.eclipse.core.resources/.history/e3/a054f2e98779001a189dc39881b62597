@@ -1,0 +1,30 @@
+create table order_A(
+    orderId     varchar2(50) not null,
+    userId      varchar2(50) not null,
+    orderRec    varchar2(50) not null,
+    addr1   varchar2(20) not null,
+    addr2   varchar2(50) not null,
+    orderPhone   varchar2(30) not null,
+    amount      number       not null,
+    orderDate   Date         default sysdate,   
+    primary key(orderId)
+);
+
+alter table order_A
+    add constraint order_userId foreign key(userId)
+    references member(userId);
+    
+create table order_details (
+    orderDetailsNum number       not null,
+    orderId         varchar2(50) not null,
+    ingNum          number          not null,
+    cartStock       number          not null,
+    primary key(orderDetailsNum)
+);
+
+create sequence order_details_seq;
+
+alter table order_details
+    add constraint order_details_orderId foreign key(orderId)
+    references order_A(orderId);
+    

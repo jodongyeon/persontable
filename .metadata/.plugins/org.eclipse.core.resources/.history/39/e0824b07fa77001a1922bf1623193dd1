@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardMapper">
+
+	<select id="selectNoticeList" parameterType="spring.web.vo.NoticeVO" resultType="spring.web.vo.NoticeVO">
+        select * from notice
+    </select>
+
+	<insert id="insert" parameterType="spring.web.vo.BoardVO" useGeneratedKeys="true" keyProperty="bno">
+      <selectKey keyProperty="bno" resultType="int" order="BEFORE">
+	    	SELECT BOARD_SEQ.NEXTVAL FROM DUAL
+	    </selectKey>
+	   INSERT INTO BOARD(    BNO 
+	   					      , TITLE 
+	   					      , CONTENT 
+	   					      , WRITER  )
+	                 VALUES(    #{bno}
+	                 		  , #{title}
+	                 		  , #{content}
+	                 		  , #{writer}  )
+   </insert>
+</mapper>
